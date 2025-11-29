@@ -1,5 +1,6 @@
 ###Packages
 uvicorn
+gunicorn
 requests
 pydantic
 python-dotenv

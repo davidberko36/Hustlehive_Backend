@@ -13,7 +13,7 @@ import (
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Println("Warning: Error loading .env file")
 	}
 
 	database.InitDB()
@@ -21,7 +21,10 @@ func main() {
 	r := gin.Default()
 	routes.SetupRoutes(r)
 
-	port := os.Getenv("GATEWAY_PORT")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = os.Getenv("GATEWAY_PORT")
+	}
 	if port == "" {
 		port = "8080"
 	}

@@ -15,6 +15,12 @@ echo "Starting product-service (logs -> logs/product.log)..."
 # Small sleep to let product-service bind the port
 sleep 1
 
+# Start payment-service in background
+echo "Starting payment-service (logs -> logs/payment.log)..."
+(cd payment-service && nohup python main.py > "$ROOT_DIR/logs/payment.log" 2>&1 &)
+
+sleep 1
+
 # Start gateway in background
 echo "Starting gateway (logs -> logs/gateway.log)..."
 (cd gateway && nohup go run main.go > "$ROOT_DIR/logs/gateway.log" 2>&1 &)

@@ -10,8 +10,12 @@ Write-Host "Starting product-service... (logs -> $($logs)\product.log)"
 Start-Process -FilePath "go" -ArgumentList "run","main.go" -WorkingDirectory (Join-Path $root "product-service") -NoNewWindow -RedirectStandardOutput (Join-Path $logs "product.log") -RedirectStandardError (Join-Path $logs "product.log")
 Start-Sleep -Seconds 1
 
+Write-Host "Starting payment-service... (logs -> $($logs)\payment.log)"
+Start-Process -FilePath "python" -ArgumentList "main.py" -WorkingDirectory (Join-Path $root "payment-service") -NoNewWindow -RedirectStandardOutput (Join-Path $logs "payment.log") -RedirectStandardError (Join-Path $logs "payment.log")
+Start-Sleep -Seconds 1
+
 Write-Host "Starting gateway... (logs -> $($logs)\gateway.log)"
 Start-Process -FilePath "go" -ArgumentList "run","main.go" -WorkingDirectory (Join-Path $root "gateway") -NoNewWindow -RedirectStandardOutput (Join-Path $logs "gateway.log") -RedirectStandardError (Join-Path $logs "gateway.log")
 
 Write-Host "Services started. Check logs in $logs"
-Write-Host "To stop the services: Get-Process -Name go | Where-Object { $_.Path -like '*go.exe' } | Stop-Process -Force  # be careful"
+Write-Host "To stop the services: Get-Process -Name go,python | Where-Object { $_.Path -like '*go.exe' -or $_.Path -like '*python.exe' } | Stop-Process -Force  # be careful"
